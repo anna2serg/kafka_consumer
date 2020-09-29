@@ -1,0 +1,9 @@
+server:
+  port: 9009
+spring:
+  kafka:
+    topic:
+      name: meteodata
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group-1
