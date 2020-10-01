@@ -14,8 +14,8 @@ import ru.kafkasample.consumer.service.MeteocenterService;
 public class MeteocenterServiceImpl implements MeteocenterService {
 
     @Override
-    @KafkaListener(id = "MeteoСenter", topics = {
-            "meteodata"}, containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(id = "MeteoСenter", topics = {"meteodata"},
+            containerFactory = "kafkaListenerContainerFactory")
     public void consume(ConsumerRecord<String, MeteoStationDto> record) {
         logMessage("*ROSGIDROMET*", record);
     }
@@ -25,7 +25,7 @@ public class MeteocenterServiceImpl implements MeteocenterService {
             topic = "${spring.kafka.topic.name}",
             partitionOffsets = {
                     @PartitionOffset(partition = "10",
-                            initialOffset = "0")}),
+                            initialOffset = "14")}),
             containerFactory = "kafkaListenerContainerFactory")
     public void consume_partition10(ConsumerRecord<String, MeteoStationDto> record) {
         logMessage("*NORTH_EXPLORATION*", record);

@@ -25,7 +25,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic topic1() {
-        return TopicBuilder.name("rocket")
+        return TopicBuilder.name("weather")
                 .partitions(5)
                 .replicas(1)
                 .compact()

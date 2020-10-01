@@ -1,11 +1,9 @@
 package ru.kafkasample.consumer.config;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,18 +17,11 @@ import ru.kafkasample.consumer.dto.MeteoStationDto;
 @Configuration
 public class KafkaConsumerConfig {
 
-    private final JsonDeserializer jsonDeserializer;
-
     @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String kafkaServer;
 
     @Value("${spring.kafka.consumer.group-id}")
     private String kafkaGroupId;
-
-    @Autowired
-    public KafkaConsumerConfig(JsonDeserializer jsonDeserializer) {
-        this.jsonDeserializer = jsonDeserializer;
-    }
 
     @Bean
     public Map<String, Object> consumerConfigs() {
@@ -44,7 +35,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, MeteoStationDto> consumerFactory() {
+    public ConsumerFactory<String, MeteoStationDto> consumerMeteoCenterFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
 
@@ -52,14 +43,10 @@ public class KafkaConsumerConfig {
     public KafkaListenerContainerFactory kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, MeteoStationDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+        factory.setConsumerFactory(consumerMeteoCenterFactory());
         factory.setBatchListener(false);
         factory.setMessageConverter(new StringJsonMessageConverter());
         return factory;
     }
 
-    @Bean
-    public StringJsonMessageConverter converter() {
-        return new StringJsonMessageConverter();
-    }
 }

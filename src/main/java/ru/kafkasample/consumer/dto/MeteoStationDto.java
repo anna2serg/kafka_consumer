@@ -16,4 +16,5 @@ public class MeteoStationDto {
     private String model;
     private String coordinates;
     private List<MeteodataDto> data;
+
 }
